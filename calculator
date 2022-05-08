@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue3 LifeCircle:mounted&update</title>
+
+
+</head>
+<body>
+
+<div id="App"> 
+    <header>Simple Calculator</header>
+    <div> {{ initialValue }}</div>
+ 
+    <button type="" @click="addSum(number)" v-for="number in 9">{{ number }}</button>
+    <button @click="addSum(0)">0</button>
+    <button type="" @click="operation(calOperator)" v-for="calOperator in calOperators ">{{ calOperator }}</button> 
+    <button @click="equal()">=</button>
+
+    <!--<input type="" v-model="calBtn"> -->
+
+</div>
+  
+
+
+
+<script src="https://unpkg.com/vue@3"></script>
+
+<script>
+
+    Vue.createApp({
+        data() {
+            return{
+
+                initialValue:"0",
+                calOperators:["+","-","*","/"],
+                savedValue: 0,
+                chooseOperator: ''          
+              }
+         },
+
+
+        methods:{
+           addSum(value){
+             if(this.initialValue === "0"){
+               this.initialValue = value;
+             }else{
+               this.initialValue += value.toString(); //toString()是因為希望在點擊時是以字串相加就不會以數字一直累加
+             }
+           },
+
+           operation(calOperator){
+           this.savedValue = Number(this.initialValue);
+           this.initialValue = '0';
+           this.chooseOperator = calOperator;
+           
+           console.log(this.savedValue)
+           console.log(this.chooseOperator)
+         },
+
+          equal(){
+            switch(this.chooseOperator){
+              case '+':
+                this.initialValue =`${this.savedValue + Number(this.initialValue)}`;
+                break;
+              case '-':
+                this.initialValue =`${this.savedValue - Number(this.initialValue)}`;
+                break;
+              case '*':
+                this.initialValue =`${this.savedValue * Number(this.initialValue)}`;
+                break;
+              case '/':
+                this.initialValue =`${this.savedValue / Number(this.initialValue)}`;
+                break;
+            }
+          }
+        }
+    }).mount('#App')
+
+
+    
+
+</script>
+</body>
+</html>
